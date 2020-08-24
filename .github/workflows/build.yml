@@ -1,0 +1,18 @@
+name: build
+on: [push]
+jobs:
+  build-and-push:
+    name: Build and push to GitHub package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and push docker images
+        uses: docker/build-push-action@v1
+        with:
+            username: ${{ github.repository_owner }}
+            password: ${{ secrets.GITHUB_TOKEN }}
+            registry: docker.pkg.github.com
+            repository: ${{ github.repository }}/vtapi
+            tag_with_ref: true
